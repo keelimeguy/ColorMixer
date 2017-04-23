@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project ColorMixer" basedir=".">
+<!-- ANT 1.7 is required -->
+
+    <!-- Define folder properties -->
+    <property name="dir.workspace" value="."/>
+    <property name="dir.jarfile" value="${dir.workspace}/build"/>
+    <property name="dir.classes" value="${dir.workspace}/bin"/>
+    <property name="dir.src" value="${dir.workspace}/src"/>
+
+    <!-- Create necessary folders -->
+    <target name="init">
+      <mkdir dir="${dir.jarfile}"/>
+      <mkdir dir="${dir.classes}"/>
+    </target>
+
+    <!-- Compile the java code from ${dir.src} into ${dir.bin} -->
+    <target name="compile" depends="init">
+      <javac srcdir="${dir.src}" destdir="${dir.classes}" debug="true" includeantruntime="false"/>
+   </target>
+
+    <target name="create_run_jar" depends="compile">
+        <jar destfile="${dir.jarfile}/ColorMixer.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="ColorMixer.ColorMixer"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <fileset dir="${dir.classes}"/>
+        </jar>
+    </target>
+
+    <!-- Delete the ${dir.jarfile} and ${dir.classes} directory tress -->
+    <target name="clean">
+      <delete dir="${dir.classes}"/>
+      <delete dir="${dir.jarfile}"/>
+   </target>
+
+</project>
