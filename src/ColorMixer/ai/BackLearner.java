@@ -53,11 +53,11 @@ public class BackLearner {
 			}
 
 		network = new Creature(weights, network.getId()+1, view);
-		System.out.print("Weights: ");
-		for (int i = 0; i < weights.length; i++)
-			System.out.print(weights[i] + ", ");
+		// System.out.print("Weights: ");
+		// for (int i = 0; i < weights.length; i++)
+			// System.out.print(weights[i] + ", ");
 		if(network.getValue()==1.0) view.stop();
-		System.out.println();
+		// System.out.println();
 	}
 
 	public double backPropogateHiddenError(int i, int j) {
@@ -89,7 +89,7 @@ public class BackLearner {
 			errj = errj*w_jk/((double)view.getNumMid());
 			err+=errj;
 		}
-		System.out.println("Input: " + err*learningRate);
+		// System.out.println("Input: " + err*learningRate);
 		// if (err >= 512.0) err/= 255.0;
 		return err;
 	}
