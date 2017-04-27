@@ -48,7 +48,7 @@ public class ColorMixer extends Canvas implements Runnable {
 		setPreferredSize(size);
 
 		frame = new JFrame();
-		// Setup a genetic algorithm or back propogation search depending on user input
+		// Setup a genetic algorithm or back propagation search depending on user input
 		if (MODE == 0)
 			view = new EvolverView(NUM_MID, 256, NUM_CREATURES, GOAL, MUTATION_RATE);
 		else
@@ -126,7 +126,7 @@ public class ColorMixer extends Canvas implements Runnable {
 
 		// Setup
 		// User chooses what method to train network
-		String[] choices = { "Genetic Algorithm", "Back Propogation" };
+		String[] choices = { "Genetic Algorithm", "Back Propagation" };
 		String input = (String) JOptionPane.showInputDialog(null, "How will the network learn?",
 			"Learning Setup", JOptionPane.QUESTION_MESSAGE, null, choices, choices[0]);
 		if (input.equals(choices[0]))

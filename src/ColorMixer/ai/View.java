@@ -6,7 +6,7 @@ import java.awt.Graphics;
 
 import ColorMixer.ColorMixer;
 
-// Handles visualizing the back propogation state
+// Handles visualizing the back propagation state
 public class View {
 
 	private BackLearner learner;
@@ -41,7 +41,7 @@ public class View {
 
 	public void update() {
 		if(!done)
-			learner.backPropogate();
+			learner.backPropagate();
 	}
 
 	public void render(Graphics g, int s) {

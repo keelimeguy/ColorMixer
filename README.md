@@ -1,4 +1,5 @@
-## ColorMixer
+## CSE4705 Honors Project: ColorMixer
+### by Keelin Becker-Wheeler
 Testing two ways to train a neural network, using the color mixing problem.  
 Notice that we are trying to train the neural network to find a solution for a specific input and output combination,  
 no further sets of input and output data is used in training for these networks (just the single input/output data point).
@@ -15,7 +16,7 @@ run `ant` then `java -jar build/ColorMixer.jar`
 - Can take a while to find a solution
 - Generally the better method for this problem
 
-#### Back Propogation:
+#### Back Propagation:
 - Easy to fall into a local minimum
 - Gets close to a solution faster than GA
 - Worse at solving for multiple output networks, especially very different colors

@@ -25,7 +25,7 @@ public class BackLearner {
 		return network.getValue();
 	}
 
-	public void backPropogate() {
+	public void backPropagate() {
 		// Copy weights from current weights
 		double[] weights_src = network.getWeights();
 		double[] weights = new double[weights_src.length];
@@ -36,7 +36,7 @@ public class BackLearner {
 			for (int i = 0; i < view.getNumMid(); i++) {
 				// First update values of all synapses entering the output node
 				int index = j+3*view.getNumMid() + view.getGoal().length*i;
-				weights[index] -= learningRate*backPropogateHiddenError(index, j);
+				weights[index] -= learningRate*backPropagateHiddenError(index, j);
 				if (weights[index] >= view.getMaxWeight()-1) weights[index] = view.getMaxWeight()-1;
 				if (weights[index] < 0.1) weights[index] = 0.1;
 			}
@@ -48,7 +48,7 @@ public class BackLearner {
 			int divided = (view.getNumMid()/view.getGoal().length);
 			for (int i = j*divided; i < (j+1)*divided; i++)
 				for (int k = 0; k < 3; k++) {
-					weights[k+3*i] -= learningRate*backPropogateInputError(k+3*i, i);
+					weights[k+3*i] -= learningRate*backPropagateInputError(k+3*i, i);
 					if ((int)weights[k+3*i] >= view.getMaxWeight()) weights[k+3*i] = view.getMaxWeight()-1;
 					if (weights[k+3*i] < 0.1) weights[k+3*i] = 0.1;
 				}
@@ -58,7 +58,7 @@ public class BackLearner {
 		// Finally update all synapses entering the hidden nodes, with no focus on specific outputs
 		for (int i = 0; i < view.getNumMid(); i++)
 			for (int k = 0; k < 3; k++) {
-				weights[k+3*i] -= learningRate*backPropogateInputError(k+3*i, i);
+				weights[k+3*i] -= learningRate*backPropagateInputError(k+3*i, i);
 				if ((int)weights[k+3*i] >= view.getMaxWeight()-1) weights[k+3*i] = view.getMaxWeight()-1;
 				if (weights[k+3*i] < 0.1) weights[k+3*i] = 0.1;
 			}
@@ -69,8 +69,8 @@ public class BackLearner {
 		if(network.getValue()==1.0) view.stop();
 	}
 
-	public double backPropogateHiddenError(int i, int j) {
-		// Find the error in synapses weights leaving hidden nodes using back propogation technique
+	public double backPropagateHiddenError(int i, int j) {
+		// Find the error in synapses weights leaving hidden nodes using back propagation technique
 		int out_j = getEndColor(j+1);
 		int col_i = getMidColor((i - view.getNumMid()*3) % view.getGoal().length + 1);
 		int target_j = view.getGoal()[j];
@@ -82,8 +82,8 @@ public class BackLearner {
 		return err;
 	}
 
-	public double backPropogateInputError(int i, int k) {
-		// Find the error in synapses weights leaving input nodes using back propogation technique
+	public double backPropagateInputError(int i, int k) {
+		// Find the error in synapses weights leaving input nodes using back propagation technique
 		double err = 0;
 		for (int j = 0; j < view.getGoal().length; j++) {
 			int out_j = getEndColor(j+1);
