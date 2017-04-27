@@ -2,6 +2,7 @@ package ColorMixer.ai;
 
 import java.util.Random;
 
+// Represents a single instance of a neural network for the color mixing problem
 public class Creature implements Comparable<Creature> {
 
 	private double[] weights;
@@ -46,8 +47,8 @@ public class Creature implements Comparable<Creature> {
 			score += Math.pow((((col & 0xff00)) >> 8) - (((view.getGoal()[j - 1] & 0xff00)) >> 8), 2);
 			score += Math.pow(((col & 0xff)) - ((view.getGoal()[j - 1] & 0xff)), 2);
 		}
-		// return score / 2.0;
 		// Score calculated as percentage of maximum difference
+		// i.e. score is thepercentage of the goal we have met, will be 1.0 when perfect (100%)
 		return 1.0 - (score / view.getGoal().length) / 65025.0;
 	}
 

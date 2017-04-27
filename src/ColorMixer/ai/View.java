@@ -6,6 +6,7 @@ import java.awt.Graphics;
 
 import ColorMixer.ColorMixer;
 
+// Handles visualizing the back propogation state
 public class View {
 
 	private BackLearner learner;

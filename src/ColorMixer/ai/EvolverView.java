@@ -6,6 +6,7 @@ import java.awt.Graphics;
 
 import ColorMixer.ColorMixer;
 
+// Handles visualizing the back genetic algorithm state
 public class EvolverView extends View {
 
 	private GeneticLearner learner;
@@ -26,7 +27,7 @@ public class EvolverView extends View {
 		if (!done) {
 			// Add child
 			newChildren++;
-			// New genertaion when we've had as many children as there is population
+			// New generation when we've had as many children as there is population
 			if (newChildren >= learner.populationSize()) {
 				generation++;
 				newChildren = 0;

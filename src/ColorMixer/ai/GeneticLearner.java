@@ -3,6 +3,7 @@ package ColorMixer.ai;
 import java.util.ArrayList;
 import java.util.Random;
 
+// Handles representing the population and genetic algorithm
 public class GeneticLearner {
 	private EvolverView evolver;
 	private int cur;

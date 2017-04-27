@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.lang.Math;
 
+// Handles representing the back learning algorithm
 public class BackLearner {
 	private View view;
 	private Creature network;
@@ -25,18 +26,25 @@ public class BackLearner {
 	}
 
 	public void backPropogate() {
+		// Copy weights from current weights
 		double[] weights_src = network.getWeights();
 		double[] weights = new double[weights_src.length];
 		for (int i = 0; i < weights_src.length; i++)
 			weights[i] = weights_src[i];
+
 		for (int j = 0; j < view.getGoal().length; j++) {
 			for (int i = 0; i < view.getNumMid(); i++) {
+				// First update values of all synapses entering the output node
 				int index = j+3*view.getNumMid() + view.getGoal().length*i;
 				weights[index] -= learningRate*backPropogateHiddenError(index, j);
 				if (weights[index] >= view.getMaxWeight()-1) weights[index] = view.getMaxWeight()-1;
 				if (weights[index] < 0.1) weights[index] = 0.1;
 			}
+			// Update creature so next steps take these updates into account
 			network = new Creature(weights, network.getId(), view);
+			// Now update values of all synapses entering the hidden nodes
+			// We divide the hidden nodes into section which have greater focus on a particular end node,
+			// this helps to find a better solution while avoiding some local minima states
 			int divided = (view.getNumMid()/view.getGoal().length);
 			for (int i = j*divided; i < (j+1)*divided; i++)
 				for (int k = 0; k < 3; k++) {
@@ -45,6 +53,9 @@ public class BackLearner {
 					if (weights[k+3*i] < 0.1) weights[k+3*i] = 0.1;
 				}
 		}
+		// Update the network with values from above
+		network = new Creature(weights, network.getId()+1, view);
+		// Finally update all synapses entering the hidden nodes, with no focus on specific outputs
 		for (int i = 0; i < view.getNumMid(); i++)
 			for (int k = 0; k < 3; k++) {
 				weights[k+3*i] -= learningRate*backPropogateInputError(k+3*i, i);
@@ -52,15 +63,14 @@ public class BackLearner {
 				if (weights[k+3*i] < 0.1) weights[k+3*i] = 0.1;
 			}
 
+		// Update the network with final values
 		network = new Creature(weights, network.getId()+1, view);
-		// System.out.print("Weights: ");
-		// for (int i = 0; i < weights.length; i++)
-			// System.out.print(weights[i] + ", ");
+		// When we find a solution, stop the algorithm
 		if(network.getValue()==1.0) view.stop();
-		// System.out.println();
 	}
 
 	public double backPropogateHiddenError(int i, int j) {
+		// Find the error in synapses weights leaving hidden nodes using back propogation technique
 		int out_j = getEndColor(j+1);
 		int col_i = getMidColor((i - view.getNumMid()*3) % view.getGoal().length + 1);
 		int target_j = view.getGoal()[j];
@@ -73,6 +83,7 @@ public class BackLearner {
 	}
 
 	public double backPropogateInputError(int i, int k) {
+		// Find the error in synapses weights leaving input nodes using back propogation technique
 		double err = 0;
 		for (int j = 0; j < view.getGoal().length; j++) {
 			int out_j = getEndColor(j+1);
@@ -89,8 +100,6 @@ public class BackLearner {
 			errj = errj*w_jk/((double)view.getNumMid());
 			err+=errj;
 		}
-		// System.out.println("Input: " + err*learningRate);
-		// if (err >= 512.0) err/= 255.0;
 		return err;
 	}
 
